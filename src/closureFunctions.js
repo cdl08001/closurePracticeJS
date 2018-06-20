@@ -8,8 +8,16 @@
 // var holaGreeting = greeting('Hola');
 // holaGreeting('Shi-Hao'); // 'Hola, Shi-Hao'
 
+// I: String
+// O: Function
+// - Should take in the name of the person to greet and return a 
+//   complete greeting in the form of "{greeting}, {person}"
+
 var greetingFactory = function(greeting) {
-  // INSERT CODE HERE
+  var currentGreeting = greeting;
+  return function(name){
+    return currentGreeting + ', ' + name;
+  }
 }
 
 // sumCalculator takes in an initial number that is stored and returns a function
@@ -26,10 +34,21 @@ var greetingFactory = function(greeting) {
 // calculatorOne(1, 1, 4, 5) // 40
 // calculatorTwo() // 10
 
-var sumCalculator = function(initialValue) {
-  // INSERT CODE HERE
-}
+//I: number (initial value)
+//O: function
+//  - can take any number of arguments. Each argument should be added to the sum. 
+//  - should return the new total
 
+var sumCalculator = function(initialValue) {
+  var sum = initialValue || 0;
+  return function(){
+    var numbersToAdd = Array.prototype.slice.call(arguments);
+    numbersToAdd.forEach(function(number){
+       sum += number;
+    })
+    return sum;
+  }
+}
 // coinFlipTally should generate a storage object, take no arguments, and 
 // return another object with two methods, makeCoinFlip and checkTally. The returned 
 // object should contain no other properties
@@ -56,10 +75,36 @@ var sumCalculator = function(initialValue) {
 // gameTally.makeCoinFlip();
 // gameTally.checkTally(); // should have updated count with heads added or tails added
 
+// I: none
+// O: 
+//   1) should generate a storage object {} with two methods:
+//    - makeCoinFlip: make a 50/50 coin flip, add to tally, and return 'heads' or 'tails
+//    - checkTally:  return storage object containing coin flips
+ 
 var coinFlipTally = function() {
-  // INSERT CODE HERE
+  var storage = {heads: 0, tails: 0}; 
 
+  return {
+    makeCoinFlip: function(){
+      var flip = Math.floor(Math.random() * Math.floor(2));
+      if(flip === 0){
+        storage.heads++;
+        return 'heads';
+      } else {
+        storage.tails++;
+        return 'tails';
+      }
+    },
+
+    checkTally: function(){
+      return storage;
+    }
+  }
 }
+
+var coinTally = coinFlipTally();
+
+var properties = Object.keys(coinTally);
 
 module.exports = {
   greetingFactory: greetingFactory,
